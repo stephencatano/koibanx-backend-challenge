@@ -1,3 +1,5 @@
+'use strict'
+
 const mongoose = require('mongoose');
 const logger = require('./utils/logger');
 mongoose.Promise = Promise;
