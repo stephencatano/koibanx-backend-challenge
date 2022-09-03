@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "run": "node $NODE_DEBUG_OPTION app.js"
+    "start": "node $NODE_DEBUG_OPTION app.js",
+    "dev": "nodemon $NODE_DEBUG_OPTION app.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +19,8 @@
     "logger": "0.0.1",
     "mongoose": "^5.13.2",
     "winston": "~2.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }

@@ -10,7 +10,7 @@ const config = require('config');
 mongoose.connect('mongodb://' + config.get('mongodb.address') + '/' + config.get('mongodb.dbname'), { useNewUrlParser: true, useUnifiedTopology: true });
 require('./utils/initializer').init()
 
-app.use('/api', require('./routes/stores'));
+app.use('/api', require('./routes/index'));
 
 // Start the server
 app.listen(config.get('port'));
