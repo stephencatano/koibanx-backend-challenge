@@ -137,7 +137,7 @@ We use Babel.js to be able to use Modern JavaScript functionalities such as Deco
 
 ## 🧬 Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [commits on this repository](https://github.com/stephencatano) and filter tags with "all branches" option.
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [commits on this repository](https://github.com/stephencatano/koibanx-backend-challenge/commits/master) and filter tags with "all branches" option.
 
 ---
 
