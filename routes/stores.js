@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express');
 const storesController = require('../controllers/store');
 const { validateStore } = require('../validators/store');

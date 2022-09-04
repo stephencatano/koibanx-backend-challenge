@@ -1,15 +1,15 @@
 'use strict'
 
-const { check } = require('express-validator');
+const { body } = require('express-validator');
 const { validateResult } = require('../helpers/validate');
 
 const validateStore = [
-  check('name').exists().isString().isLength({ min: 5 }),
-  check('cuit').exists().isString().isLength({ min: 5 }),
-  check('concepts').exists().isArray(),
-  check('currentBalance').exists().isNumeric(),
-  check('active').exists().isBoolean(),
-  check('lastSale').exists().isDate(),
+  body('name').exists().isString().isLength({ min: 5 }),
+  body('cuit').exists().isString().isLength({ min: 5 }),
+  body('concepts').exists().isArray(),
+  body('currentBalance').exists().isNumeric(),
+  body('active').exists().isBoolean(),
+  body('lastSale').exists().isDate(),
   (req, res, next) => {
     validateResult(req, res, next);
   }
