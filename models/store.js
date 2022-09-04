@@ -21,55 +21,62 @@ StoreSchema.plugin(mongoosePaginate);
 
 const Store = mongoose.model('Store', StoreSchema);
 
-module.exports.getStores = async (query, page, limit) => {
-  let parsedQuery = {};
+function formatStoreInfo (target, key, descriptor) {
+  const originFunction = descriptor.value.bind(target);
+  descriptor.value = async function (...args) {
+    const returnedValue = await originFunction(...args);
 
-  if (query.length) {
-    const queryFixed = query.replace(/\$not/g, '$ne')
-    parsedQuery = JSON.parse(queryFixed);
+    return {
+      data: returnedValue.docs.map(store => {
+        return {
+          ...store,
+          currentBalance: store.currentBalance.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          }),
+          active: store.active ? 'Sí' : 'No',
+          lastSale: store.lastSale.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        }
+      }),
+      page: returnedValue.page,
+      pages: returnedValue.totalPages,
+      limit: returnedValue.limit,
+      total: returnedValue.totalDocs,
+    }
+  }
+}
+
+class StoreModel {
+  @formatStoreInfo
+  async getStores (query, page, limit) {
+    let parsedQuery = {};
+
+    if (query.length) {
+      const queryFixed = query.replace(/\$not/g, '$ne')
+      parsedQuery = JSON.parse(queryFixed);
+    }
+
+    const parsedPage = page > 1 ? +page : 1;
+    const options = {
+      page: parsedPage,
+      sort: { updated_at: -1 },
+      lean: true,
+      limit: +limit,
+    };
+
+    return await Store.paginate(parsedQuery, options) || [];
   }
 
-  const parsedPage = page > 1 ? +page : 1;
-  const options = {
-    page: parsedPage,
-    sort: { updated_at: -1 },
-    lean: true,
-    limit: +limit,
-  };
+  async createStore (store) {
+    const newStore = new Store(store);
 
-  const result = await Store.paginate(parsedQuery, options) || [];
-  const data = this.buildStoreInfo(result);
-
-  return {
-    data,
-    page: result.page,
-    pages: result.pages,
-    limit: result.limit,
-    total: result.total,
-  };
-};
-
-module.exports.createStore = async (store) => {
-  const newStore = new Store(store);
-
-  return newStore.save();
-};
-
-module.exports.buildStoreInfo = storesData => {
-  return storesData.docs.map(store => {
-    return {
-      ...store,
-      currentBalance: store.currentBalance.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }),
-      active: store.active ? 'Sí' : 'No',
-      lastSale: store.lastSale.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    }
-  })
+    return newStore.save();
+  }
 }
+
+module.exports = new StoreModel();
