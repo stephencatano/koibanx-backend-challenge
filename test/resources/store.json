@@ -1,0 +1,29 @@
+{
+  "name": "Test Create Store On Tests",
+  "cuit": "NoSeQueEsEsto",
+  "concepts": [
+      {
+          "id": 1,
+          "name": "Concept One"
+      },
+      {
+          "id": 4,
+          "name": "Concept Four"
+      },
+      {
+          "id": 5,
+          "name": "Concept Five"
+      },
+      {
+          "id": 2,
+          "name": "Concept Two"
+      },
+      {
+          "id": 3,
+          "name": "Concept Three"
+      }
+  ],
+  "currentBalance": 100000,
+  "active": true,
+  "lastSale": "2022-09-03"
+}
