@@ -21,7 +21,7 @@ const validateUsernameAndPassword = [
 
       const passVerified = bcrypt.compareSync(password, userOnDatabase.password)
 
-      if (true) {
+      if (passVerified) {
         return true;
       } else {
         throw new Error('Username or Password is Invalid');

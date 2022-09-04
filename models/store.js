@@ -28,8 +28,12 @@ function formatStoreInfo (target, key, descriptor) {
 
     return {
       data: returnedValue.docs.map(store => {
+        const conceptsSorted = store.concepts.sort((a, b) => a.id - b.id);
         return {
-          ...store,
+          id: store.id,
+          name: store.name,
+          cuit: store.cuit,
+          concepts: conceptsSorted,
           currentBalance: store.currentBalance.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
