@@ -17,7 +17,7 @@ StoreSchema.pre('save', async function (callback) {
   //completar de ser necesario
 });
 
-StoreSchema.plugin(mongoosePaginate)
+StoreSchema.plugin(mongoosePaginate);
 
 const Store = mongoose.model('Store', StoreSchema);
 
@@ -26,8 +26,15 @@ module.exports.getStores = async (query, page, limit) => {
   const options = {
     page: parsedPage,
     sort: { updated_at: -1 },
+    lean: true,
     limit: +limit,
   };
 
   return Store.paginate(query, options)
-}
+};
+
+module.exports.createStore = async (store) => {
+  const newStore = new Store(store);
+
+  return newStore.save();
+};

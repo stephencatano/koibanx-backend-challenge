@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const logger = require('./utils/logger');
+const bodyParser = require('body-parser')
 mongoose.Promise = Promise;
 
 const express = require('express')
@@ -12,6 +13,7 @@ const config = require('config');
 mongoose.connect('mongodb://' + config.get('mongodb.address') + '/' + config.get('mongodb.dbname'), { useNewUrlParser: true, useUnifiedTopology: true });
 require('./utils/initializer').init()
 
+app.use(bodyParser.json());
 app.use('/api', require('./routes/index'));
 
 // Start the server

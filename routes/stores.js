@@ -1,9 +1,11 @@
 const express = require('express');
-const router = express.Router();
-const storesController = require('../controllers/store')
-const { validateUserAndPassword } = require('../middlewares/auth')
+const storesController = require('../controllers/store');
+const { validateStore } = require('../validators/store');
+const { validateUsernameAndPassword } = require('../validators/user');
 
-router.get('/', validateUserAndPassword, storesController.getStores);
-router.post('/', validateUserAndPassword, storesController.createStore);
+const router = express.Router();
+
+router.get('/', validateUsernameAndPassword, storesController.getStores);
+router.post('/', validateUsernameAndPassword, validateStore, storesController.createStore);
 
 module.exports = router;
